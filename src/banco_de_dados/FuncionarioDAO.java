@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,14 +26,18 @@ public class FuncionarioDAO {
         PreparedStatement ps;
 
         try {
+
             ps = con.prepareStatement("INSERT INTO funcionarios (nome, data_nasc, salario, data_registro, cadastro_ativo) VALUES(?, ?, ?, ?, ?)");
             ps.setString(1, f.getNome());
             ps.setDate(2, new java.sql.Date(f.getDataNascimento().getTime()));
             ps.setBigDecimal(3, f.getSalario());
-            ps.setTimestamp(4, new Timestamp(f.getDataRegistro().getTime()));
+            ps.setTimestamp(4, new Timestamp(f.getDataRegistro().getTime())); 
             ps.setBoolean(5, f.getAtivo());
 
             ps.execute();
+
+            ps.close();
+            con.close();
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -42,7 +47,7 @@ public class FuncionarioDAO {
 
     public ArrayList<Funcionario> listarTodos(){
         
-        ArrayList<Funcionario> lista =new ArrayList<>();
+        ArrayList<Funcionario> lista = new ArrayList<>();
 
         Connection con = ConexaoMySQL.getConnection();
         PreparedStatement ps;
@@ -65,11 +70,47 @@ public class FuncionarioDAO {
                 lista.add(f);
             }
 
+            ps.close();
+            con.close();
+
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
 
         return lista;
+    }
+
+    public void alterar(Funcionario f){
+
+        Connection con = ConexaoMySQL.getConnection();
+        PreparedStatement ps;
+
+        try {
+            ps = con.prepareStatement(
+                "UPDATE funcionarios SET nome = ?, data_nasc = ?, salario = ?, cadastro_ativo = ? WHERE id = ?"
+            );
+            ps.setString(1, f.getNome());
+            ps.setDate(2, new java.sql.Date(f.getDataNascimento().getTime()));
+            ps.setBigDecimal(3, f.getSalario());
+            ps.setBoolean(4, f.getAtivo());
+
+            ps.executeUpdate();
+
+            ps.close();
+            con.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void deletar(Funcionario f) {
+
+    }
+
+    public Funcionario buscarPorId(Integer id){
+        return null;
     }
 
 }

@@ -16,11 +16,13 @@ public class ConexaoMySQL {
             String url = "jdbc:mysql://localhost:3306/"; // Caminho que localiza o banco de dados (a porta padrão do MYSQL é 3306)
             String nome_do_banco = "banco_java"; // Nome do seu banco de dados
 
-            con = DriverManager.getConnection( url + nome_do_banco, usuario, senha);  
+            con = DriverManager.getConnection(url + nome_do_banco, usuario, senha);
 
         } catch (Exception e) {
-               System.out.println(e);
+            System.out.println(e);
         }
         return con;
     }
+
+    
   }

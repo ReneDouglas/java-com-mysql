@@ -12,7 +12,6 @@ public class App {
     public static void main(String[] args) throws Exception {
 
         menuInicial();
-        // TESTE
 
     }
 
@@ -59,7 +58,9 @@ public class App {
         funcionario.setDataNascimento(dataNascFormatada);
 
         System.out.printf("Digite o salário do funcionário (0000.00): ");
+
         funcionario.setSalario(new BigDecimal(ler.next()));
+        // BigDecimal é recomendado quando se quer trabalhar com R$
 
         funcionario.setDataRegistro(new Date(System.currentTimeMillis()));
         funcionario.setAtivo(true);
@@ -79,6 +80,8 @@ public class App {
         
 
         System.out.println("===== LISTA DE FUNCIONÁRIOS =====");
+        
+        // para cada Funcionario {f} na lista {listaFuncionarios} faça
         for (Funcionario f : listaFuncionarios) {
             System.out.println(
                 "> ID: " + f.getId() + 
@@ -87,6 +90,7 @@ public class App {
                 "\tSALÁRIO: " + f.getSalario() +
                 "\tREGISTRO: " + new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(f.getDataRegistro()) +
                 "\tATIVO: " + (f.getAtivo() ? "Sim" : "Não"));
+
         }
 
         Scanner ler = new Scanner(System.in);
